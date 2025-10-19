@@ -12,7 +12,6 @@ echo "
 "
 
 git clone https://github.com/AnkitBoss790/gvm-v1.git
-apt install unzip -y && unzip v1-gvm.zip
 cd gvm-v1
 apt update
 apt install python3 -y
