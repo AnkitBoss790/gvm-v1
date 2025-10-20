@@ -1566,7 +1566,7 @@ def clone_vps(vps_id):
         if was_running:
             container.pause()
        
-        new_image_tag = f"hvm/clone-{generate_vps_id().lower()}:latest"
+        new_image_tag = f"gvm/clone-{generate_vps_id().lower()}:latest"
         new_image = container.commit(repository=new_image_tag.split(':')[0], tag=new_image_tag.split(':')[1])
        
         if was_running:
@@ -2439,7 +2439,7 @@ def admin_panel():
     }
    
     audit_logs = db.get_audit_logs()
-    with open('hvm_panel.log', 'r') as f:
+    with open('gvm_panel.log', 'r') as f:
         logs = ''.join(f.readlines()[-200:])
    
     groups = db.get_groups()
