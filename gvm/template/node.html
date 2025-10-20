@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nodes - {{ panel_name }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background: #f5f7fa; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .navbar { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .coming-soon-container {
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .coming-soon-content {
+            background: white;
+            border-radius: 15px;
+            padding: 60px 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            max-width: 600px;
+        }
+        .coming-soon-icon {
+            font-size: 100px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+        .node-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .stat-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .stat-box h4 { margin: 0; font-size: 32px; }
+        .stat-box p { margin: 5px 0 0 0; opacity: 0.9; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{ url_for('dashboard') }}">
+                <i class="fas fa-server"></i> {{ panel_name }}
+            </a>
+            <div>
+                <a href="{{ url_for('dashboard') }}" class="btn btn-light btn-sm">
+                    <i class="fas fa-home"></i> Dashboard
+                </a>
+                <a href="{{ url_for('logout') }}" class="btn btn-outline-light btn-sm">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        {% if coming_soon %}
+        <div class="coming-soon-container">
+            <div class="coming-soon-content">
+                <div class="coming-soon-icon">
+                    <i class="fas fa-network-wired"></i>
+                </div>
+                <h1>Nodes Management</h1>
+                <h3 class="text-muted mb-4">Coming Soon in GVM V2</h3>
+                <p class="lead">
+                    Multi-node management feature is currently under development. 
+                    This will allow you to manage multiple servers and distribute VPS instances across different nodes.
+                </p>
+                <div class="mt-4">
+                    <h5>Planned Features:</h5>
+                    <ul class="list-unstyled mt-3">
+                        <li class="mb-2"><i class="fas fa-check-circle text-success"></i> Add Multiple Server Nodes</li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-success"></i> Real-time Resource Monitoring</li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-success"></i> Automatic Load Balancing</li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-success"></i> Cross-Node VPS Migration</li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-success"></i> Node Health Monitoring</li>
+                    </ul>
+                </div>
+                <a href="{{ url_for('dashboard') }}" class="btn btn-primary btn-lg mt-4">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+            </div>
+        </div>
+        {% else %}
+        <h2 class="mb-4"><i class="fas fa-network-wired"></i> Node Management</h2>
+        
+        <div class="row">
+            <div class="col-md-3">
+                <div class="stat-box">
+                    <h4 id="nodeCount">1</h4>
+                    <p>Active Nodes</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-box">
+                    <h4 id="totalCPU">0%</h4>
+                    <p>Total CPU Usage</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-box">
+                    <h4 id="totalRAM">0 GB</h4>
+                    <p>Total RAM Used</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-box">
+                    <h4 id="totalDisk">0 GB</h4>
+                    <p>Total Disk Used</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="node-card">
+            <h4><i class="fas fa-server"></i> GVM V2 Node (Primary)</h4>
+            <div class="row mt-3">
+                <div class="col-md-4">
+                    <p><strong>Status:</strong> <span class="badge bg-success">Online</span></p>
+                    <p><strong>Location:</strong> Local Server</p>
+                </div>
+                <div class="col-md-4">
+                    <p><strong>CPU Cores:</strong> <span id="cpuCores">-</span></p>
+                    <p><strong>Memory:</strong> <span id="totalMemory">-</span> GB</p>
+                </div>
+                <div class="col-md-4">
+                    <p><strong>Disk Space:</strong> <span id="totalDiskSpace">-</span> GB</p>
+                    <p><strong>VPS Instances:</strong> <span id="vpsCount">-</span></p>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn btn-primary" disabled>
+            <i class="fas fa-plus"></i> Add New Node (Coming Soon)
+        </button>
+        {% endif %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
